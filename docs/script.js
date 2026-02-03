@@ -1,5 +1,6 @@
 const STORAGE_KEYS = {
   theme: "aquariusLanding.theme",
+  openMonth: "aquariusLanding.openMonth",
 };
 
 function setHtmlAttr(name, value) {
@@ -47,6 +48,38 @@ function toggleTheme() {
   showToast(next === "dark" ? "Тёмная" : "Светлая");
 }
 
+function setupMonthAccordion() {
+  const container = document.getElementById("months");
+  if (!container) return;
+
+  /** @type {HTMLDetailsElement[]} */
+  const items = Array.from(container.querySelectorAll('details[data-acc="month"]'));
+  if (!items.length) return;
+
+  // Restore last open
+  const saved = localStorage.getItem(STORAGE_KEYS.openMonth);
+  if (saved) {
+    const match = items.find((d) => d.getAttribute("data-key") === saved);
+    if (match) match.open = true;
+  } else {
+    // Sensible default: start from February (first big pivot in transcript).
+    const feb = items.find((d) => d.getAttribute("data-key") === "feb");
+    if (feb) feb.open = true;
+  }
+
+  // One-open-at-a-time behavior
+  items.forEach((d) => {
+    d.addEventListener("toggle", () => {
+      if (!d.open) return;
+      const key = d.getAttribute("data-key");
+      if (key) localStorage.setItem(STORAGE_KEYS.openMonth, key);
+      items.forEach((other) => {
+        if (other !== d) other.open = false;
+      });
+    });
+  });
+}
+
 async function copyMantra() {
   const text = "Я рискну. Я попробую. Я смогу.";
   try {
@@ -78,6 +111,7 @@ function boot() {
   document.getElementById("themeToggle")?.addEventListener("click", toggleTheme);
   document.getElementById("copyMantra")?.addEventListener("click", copyMantra);
   syncThemeButton();
+  setupMonthAccordion();
 
   // Keyboard shortcut: T toggles theme
   window.addEventListener("keydown", (e) => {
