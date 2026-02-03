@@ -1,12 +1,12 @@
 :root{
-  --bg: #ffffff;
+  --bg: #D5E9F5;
   --surface: #ffffff;
   --ink: #0a0a0a;
   --muted: rgba(10,10,10,.62);
   --faint: rgba(10,10,10,.10);
   --hairline: rgba(10,10,10,.14);
   --focus: rgba(10,10,10,.28);
-  --topbar-bg: rgba(255,255,255,.80);
+  --topbar-bg: rgba(213,233,245,.80);
 
   --radius: 14px;
   --radius-sm: 10px;
@@ -224,6 +224,12 @@ html[data-theme="dark"] body::before{
   padding: 14px 14px 10px;
   background: var(--surface);
 }
+.panel__title{
+  font-size: 13px;
+  letter-spacing: .02em;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
 
 .section{
   padding: calc(var(--pad) * 1.35) 0;
@@ -252,7 +258,7 @@ html[data-theme="dark"] body::before{
   padding-left: 18px;
   color: var(--muted);
   font-size: 13px;
-  line-height: 1.7;
+  line-height: 1.65;
 }
 .bullets li{ margin: 6px 0; }
 .bullets strong{ color: var(--ink); }
